@@ -1,8 +1,8 @@
 # --*- coding: utf-8 -*-
 
-from jsonrpclib import Server
+import jsonrpclib
 
-server = Server('http://localhost:8080')
+server = jsonrpclib.Server('http://localhost:5000')
 
 corpus_fname = './corpus/corpus_5.txt'
 
@@ -11,6 +11,7 @@ with open(corpus_fname, 'r') as f:
 
 print server.ping()
 
-result = server.generate(corpus_txt, 1)
-# print result.encode('latin-1', 'replace')
-print result
+result = server.generate("Poszla Dyna srac na tory", 1)
+print result.encode('latin-1', 'replace')
+print jsonrpclib.history.request
+# print result
