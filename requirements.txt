@@ -1,3 +1,2 @@
 jsonrpclib==0.1.3
 tornado==3.0
-tornadorpc==0.1
