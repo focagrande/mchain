@@ -1,1 +1,1 @@
-web: python mchain_server.py
+web: ./bin/gunicorn -k tornado --workers=1 --bind=0.0.0.0:$PORT mchain_server
