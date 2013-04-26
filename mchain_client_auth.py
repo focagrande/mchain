@@ -3,22 +3,40 @@
 import urllib2
 import json
 import sys
+import uuid
+import argparse
+import base64
 
-corpus_fname = './corpus/corpus_6.txt'
 
-with open(corpus_fname, 'r') as f:
-    corpus_txt = f.read()
+def build_request(ct):
 
-jsonrpc_req = {}
-jsonrpc_req['jsonrpc'] = "2.0"
-jsonrpc_req['params'] = ['Poszla Dyna srac na tory', 1]
-jsonrpc_req['id'] = '0ccl8o0s'
-jsonrpc_req['method'] = 'generate'
+    jsonrpc_req = {}
+    jsonrpc_req['jsonrpc'] = "2.0"
+    jsonrpc_req['params'] = [corpus_txt, 1]
+    jsonrpc_req['id'] = str(uuid.uuid1())
+    jsonrpc_req['method'] = 'generate'
 
-jsonrpc_req_txt = json.dumps(jsonrpc_req)
+    return json.dumps(jsonrpc_req)
 
-req = urllib2.Request(url='http://mchain.herokuapp.com:5000', data=jsonrpc_req_txt)
-req.add_header('Authorization', 'Basic enVtaWNybTp0WTVZSmY5MWFpUFJYRzA=')
+if __name__ == '__main__':
 
-f = urllib2.urlopen(req)
-print f.read()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("corpusfile")
+    parser.add_argument("server_url")
+    parser.add_argument("username")
+    parser.add_argument("password")
+
+    args = parser.parse_args()
+
+    upass_encoded = base64.encodestring('%s:%s' % (args.username, args.password))
+
+    with open(args.corpusfile, 'r') as f:
+        corpus_txt = f.read()
+
+    jsonrpc_req_txt = build_request(corpus_txt)
+
+    req = urllib2.Request(url=args.server_url, data=jsonrpc_req_txt)
+    req.add_header('Authorization', "Basic %s" % (upass_encoded))
+
+    f = urllib2.urlopen(req)
+    print f.read()

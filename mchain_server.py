@@ -1,5 +1,6 @@
 # --*- coding: utf-8 -*-
 
+import sys
 import base64
 
 import tornado.ioloop
@@ -56,5 +57,8 @@ application = tornado.web.Application([
 
 
 if __name__ == "__main__":
-    application.listen(5000)
+
+    server_port = sys.argv[1]
+
+    application.listen(server_port)
     tornado.ioloop.IOLoop.instance().start()
