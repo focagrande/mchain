@@ -1,5 +1,5 @@
 # --*- coding: utf-8 -*-
-
+import sys
 from mchain import Mchain
 
 def main(ct, dg):
@@ -8,11 +8,14 @@ def main(ct, dg):
 
 if __name__ == '__main__':
 
-    corpus_fname = './corpus/corpus_5.txt'
+    try:
+        corpus_fname = sys.argv[1]
+        degree = sys.argv[2]
+    except IndexError:
+        print "usage: %s corpus_file degree" % sys.argv[0]
+        sys.exit(1)
 
     with open(corpus_fname, 'r') as f:
         corpus_txt = f.read()
 
-    print main(corpus_txt, 1)
-    print '----------------------------------------------------'
-    print main(corpus_txt, 2)
+    print main(corpus_txt, int(degree))
