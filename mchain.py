@@ -6,11 +6,14 @@ import string
 class Mchain(object):
     "Class implements Markov Chain generator"
 
-    def __init__(self, corpus_text, degree):
+    def __init__(self):
         "Initializer"
 
-        self.corpus_text = corpus_text
-        self.degree = degree
+        self.corpus_text = None
+        self.degree = None
+        self.maxwords = None
+
+
         self.corpus = []
         self.core = {}
         self.mchain = []
@@ -34,7 +37,7 @@ class Mchain(object):
 
         self.mchain = self.corpus[:self.degree]
 
-        for k in range(1, 100):
+        for k in range(1, self.maxwords):
             
             try:
                 posstate = self.core[tuple(self.mchain[len(self.mchain) - self.degree:])]
@@ -45,8 +48,13 @@ class Mchain(object):
 
         return string.join(self.mchain, ' ')
 
-    def generate(self):
+    def generate(self, corpus_text, degree, maxwords):
         "Generate Markov chain"
+
+        self.corpus_text = corpus_text
+        self.degree = degree
+        self.maxwords = maxwords
+
         self._build_core()
         return self._build_mchain()
 
