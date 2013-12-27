@@ -14,7 +14,7 @@ def request(url, crp, dgr, mwr):
     Parameters:
     url -- URL of Markov chain generator server
     crp -- string with corpus text
-    dgr -- degree. Lengthof a generator key
+    dgr -- degree. Length of a generator key
     mwr -- maximal length of generated text (in words)
 
     """
@@ -26,6 +26,8 @@ def request(url, crp, dgr, mwr):
                'method': 'generate',
                'params': [crp, dgr, mwr],
                'id': str(uuid.uuid1())}
+
+    print json.dumps(request)
 
     r = requests.post(url, data=json.dumps(request), headers=headers)
     return r.text

@@ -1,28 +1,39 @@
 # --*- coding: utf-8 -*-
 
+"""Markov chain generator client example. Using jsonrpclib"""
+
 import sys
 import jsonrpclib
 
-server = jsonrpclib.Server('http://localhost:5000')
 
+def request(url, crp, dgr, mwr):
+    """Make a json-rpc request. Return response as string
 
-def request(ct, dg, mw):
+    Parameters:
+    url -- URL of Markov chain generator server
+    crp -- string with corpus text
+    dgr -- degree. Length of a generator key
+    mwr -- maximal length of generated text (in words)
 
-    result = server.generate(ct, dg, mw)
+    """
+
+    server = jsonrpclib.Server(url)
+    result = server.generate(crp, dgr, mwr)
     return result.encode('latin-1', 'replace')
 
 
 if __name__ == '__main__':
 
     try:
-        corpus_fname = sys.argv[1]
-        degree = int(sys.argv[2])
-        maxwords = int(sys.argv[3])
+        url = sys.argv[1]
+        crf = sys.argv[2]
+        dgr = int(sys.argv[3])
+        mwr = int(sys.argv[4])
     except IndexError:
-        print "usage %s corpus_file degree maxwords" % (sys.argv[0])
+        print "usage %s server_url corpus_file degree maxwords" % (sys.argv[0])
         sys.exit(1)
 
-with open(corpus_fname, 'r') as f:
-    corpus_txt = f.read()
+    with open(crf, 'r') as f:
+        crp = f.read()
 
-print request(corpus_txt, degree, maxwords)
+    print request(url, crp, dgr, mwr)

@@ -2,9 +2,9 @@
 
 apt-get install -y unzip
 apt-get install -y python-pip
+apt-get install -y git
 
 pip install jsonrpclib
 pip install tornado
-
-sudo wget -qO- https://toolbelt.heroku.com/install-ubuntu.sh | sh
-
+pip install supervisord
+pip install requests

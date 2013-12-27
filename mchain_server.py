@@ -28,7 +28,11 @@ application = tornado.web.Application([
 
 if __name__ == "__main__":
 
-    server_port = sys.argv[1]
+    try:
+        server_port = sys.argv[1]
+    except IndexError:
+        print "usage: %s port" % (sys.argv[0])
+        sys.exit(1)
 
     application.listen(server_port)
     tornado.ioloop.IOLoop.instance().start()
