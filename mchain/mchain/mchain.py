@@ -1,5 +1,6 @@
 # --*- coding: utf-8 -*-
 
+import sys
 import random
 import string
 
@@ -58,3 +59,18 @@ class Mchain(object):
         self._build_core()
         return self._build_mchain()
 
+if __name__ == '__main__':
+
+    try:
+        cf = sys.argv[1]
+        dg = int(sys.argv[2])
+        mw = int(sys.argv[3])
+    except IndexError:
+        print "usage: %s corpus_file degree maxwords" % sys.argv[0]
+        sys.exit(1)
+
+    with open(cf, 'r') as f:
+        ct = f.read()
+
+    mc = Mchain()
+    print mc.generate(ct, dg, mw)

@@ -8,7 +8,7 @@ import tornado.web
 
 from tornadorpc.json import JSONRPCHandler
 
-from mchain import Mchain
+from mchain.mchain import Mchain
 
 def require_basic_auth(handler_class):
 
